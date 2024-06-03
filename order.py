@@ -10,7 +10,7 @@ def order(text):
     def consume_whitespace():
         nonlocal i, text
         ws = 0
-        while text[i + ws].isspace():
+        while i + ws < len(text) and text[i + ws].isspace():
             ws += 1
         text = text[:i] + text[i+ws:]
 
