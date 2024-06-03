@@ -1,6 +1,7 @@
 from aqt.qt import *
 import aqt
 from random import choice, shuffle
+import os
 
 CHOICE_START = r'{r{'
 CHOICE_END = r'}r}'
@@ -130,7 +131,7 @@ def wrapOrderItem(editor):
 def addButtons(buttons, editor):
     editor._links['wrapChoose'] = wrapChoose
     buttons.append(editor.addButton(
-        "iconpath",
+        os.path.join(os.path.dirname(__file__), 'img', 'c.png' ),
         "wrapChoose",
         wrapChoose,
         tip=f"Wrap selection in a choose context ({CHOICE_CONTEXT_KEY})",
@@ -139,7 +140,7 @@ def addButtons(buttons, editor):
 
     editor._links['wrapOrder'] = wrapOrder
     buttons.append(editor.addButton(
-        "iconpath",
+        os.path.join(os.path.dirname(__file__), 'img', 'o.png' ),
         "wrapOrder",
         wrapOrder,
         tip=f"Wrap selection in an order context ({ORDER_CONTEXT_KEY})",
@@ -148,7 +149,7 @@ def addButtons(buttons, editor):
 
     editor._links['wrapOrderItem'] = wrapOrderItem
     buttons.append(editor.addButton(
-        "iconpath",
+        os.path.join(os.path.dirname(__file__), 'img', 'oi.png' ),
         "wrapOrderItem",
         wrapOrderItem,
         tip=f"Wrap selection in an order item ({ORDER_ITEM_CONTEXT_KEY})",
