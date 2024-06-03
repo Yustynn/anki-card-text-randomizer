@@ -2,7 +2,7 @@ from aqt.qt import *
 from anki.hooks import addHook
 import aqt
 from .order import ORDER_ITEM_START, ORDER_ITEM_END, ORDER_START, ORDER_END
-from .replace import CHOICE_START, CHOICE_END,  CHOICE_SEP
+from .choose import CHOICE_START, CHOICE_END,  CHOICE_SEP
 from .process import process
 import os
 

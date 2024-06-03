@@ -1,12 +1,11 @@
 from .order import order
-from .replace import replace
+from .choose import choose
 
 def process(text):
-    return order(replace(text))
+    return order(choose(text))
 
 if __name__ == '__main__':
     """ hacky tests """
-
     text = """
     {c{
     LLVM stands for {{c1::Low Level Virtual Machine}} 

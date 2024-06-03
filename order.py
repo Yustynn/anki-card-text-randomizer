@@ -1,9 +1,9 @@
 from random import shuffle
 
-ORDER_START = r'{o{'
-ORDER_END = r'}o}'
-ORDER_ITEM_START = '{oi{'
-ORDER_ITEM_END = '}oi}'
+ORDER_START = r'[rorder]'
+ORDER_END = r'[/rorder]'
+ORDER_ITEM_START = r'[ritem]'
+ORDER_ITEM_END = r'[/ritem]'
 
 def order(text):
 
