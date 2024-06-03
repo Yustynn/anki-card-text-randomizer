@@ -6,10 +6,12 @@ CHOICE_START = r'{r{'
 CHOICE_END = r'}r}'
 CHOICE_SEP = ':r:'
 
+
+CHOICE_CONTEXT_KEY = 'Alt+Shift+c'
 def replace(text):
     i = 0
     while i < len(text):
-        if not text[i:i+3] == CHOICE_START:
+        if not text[i:i+len(CHOICE_START)] == CHOICE_START:
             i += 1
             continue
 
@@ -54,18 +56,20 @@ def on_card_will_show(text: str, card, kind):
 
 aqt.gui_hooks.card_will_show.append(on_card_will_show)
 
-from aqt.utils import showInfo
 from anki.hooks import addHook
 
 # cross out the currently selected text
 def wrapChoose(editor):
     editor.web.eval("wrap('{r{ ', ' }r}');")
 
-def addMyButton(buttons, editor):
+def addButtons(buttons, editor):
     editor._links['wrapChoose'] = wrapChoose
-    return buttons + [editor._addButton(
-        "iconname", # "/full/path/to/icon.png",
+    return buttons + [editor.addButton(
+        "iconpath",
         "wrapChoose",
-        "Wrap selection in a choose context")]
+        wrapChoose,
+        tip=f"Wrap selection in a choose context ({CHOICE_CONTEXT_KEY})",
+        keys=CHOICE_CONTEXT_KEY
+    )]
 
-addHook("setupEditorButtons", addMyButton)
+addHook("setupEditorButtons", addButtons)
