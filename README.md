@@ -10,7 +10,7 @@ Works with cloze deletion.
 ![](./doc/choose-example.gif)
 
 # How to Use
-Wrap your text in the appropriate context (either *Random Choice* `[rchoice]Content[/rchoice]` or *Random Order*).
+Wrap your text in the appropriate context (either *Random Choice* `[rchoice]Content[/rchoice]` or *Random Order*), then use the appropriate markup (see below).
 
 - Tip: Nesting is fine for both *Random Choice* and *Random Order* (also, feel free to mix them!)
 - Tip: Buttons and shortcuts help a lot.
