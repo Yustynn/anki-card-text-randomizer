@@ -1,13 +1,26 @@
 from aqt.qt import *
 import aqt
-from random import choice
+from random import choice, shuffle
 
 CHOICE_START = r'{r{'
 CHOICE_END = r'}r}'
 CHOICE_SEP = ':r:'
 
-
 CHOICE_CONTEXT_KEY = 'Alt+Shift+c'
+
+ORDER_START = r'{o{'
+ORDER_END = r'}o}'
+ORDER_ITEM_START = '{oi{'
+ORDER_ITEM_END = '}oi}'
+
+ORDER_CONTEXT_KEY = 'Alt+Shift+o'
+ORDER_ITEM_CONTEXT_KEY = 'Alt+Shift+i'
+
+
+def order(text):
+    pass
+
+
 def replace(text):
     i = 0
     while i < len(text):
@@ -32,7 +45,7 @@ def replace(text):
 
             # recurse if START
             if seg == CHOICE_START:
-                text = text[:i] + replace(text[i:].strip())
+                text = text[:i] + replace(text[i:]).strip()
             # add new choice
             elif seg == CHOICE_SEP:
                 cs.append(text[c_start:i].strip())
@@ -52,24 +65,51 @@ def replace(text):
 
 
 def on_card_will_show(text: str, card, kind):
-    return replace(text)
+    return order(replace(text))
 
 aqt.gui_hooks.card_will_show.append(on_card_will_show)
 
 from anki.hooks import addHook
 
-# cross out the currently selected text
 def wrapChoose(editor):
-    editor.web.eval("wrap('{r{ ', ' }r}');")
+    editor.web.eval(f"wrap('{CHOICE_START} ', ' {CHOICE_END}');")
+
+def wrapOrder(editor):
+    editor.web.eval(f"wrap('{ORDER_START} ', ' {ORDER_END}');")
+
+def wrapOrderItem(editor):
+    editor.web.eval(f"wrap('{ORDER_ITEM_START} ', ' {ORDER_ITEM_END}');")
 
 def addButtons(buttons, editor):
     editor._links['wrapChoose'] = wrapChoose
-    return buttons + [editor.addButton(
+    buttons.append(editor.addButton(
         "iconpath",
         "wrapChoose",
         wrapChoose,
         tip=f"Wrap selection in a choose context ({CHOICE_CONTEXT_KEY})",
         keys=CHOICE_CONTEXT_KEY
-    )]
+    ))
+
+    editor._links['wrapOrder'] = wrapOrder
+    buttons.append(editor.addButton(
+        "iconpath",
+        "wrapOrder",
+        wrapOrder,
+        tip=f"Wrap selection in an order context ({ORDER_CONTEXT_KEY})",
+        keys=ORDER_CONTEXT_KEY
+    ))
+
+    editor._links['wrapOrderItem'] = wrapOrderItem
+    buttons.append(editor.addButton(
+        "iconpath",
+        "wrapOrderItem",
+        wrapOrderItem,
+        tip=f"Wrap selection in an order context ({ORDER_ITEM_CONTEXT_KEY})",
+        keys=ORDER_ITEM_CONTEXT_KEY
+    ))
+
+
+
+    return buttons
 
 addHook("setupEditorButtons", addButtons)
