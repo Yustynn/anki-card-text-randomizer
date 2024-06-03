@@ -8,6 +8,7 @@ CHOICE_END = r'}r}'
 CHOICE_SEP = ':r:'
 
 CHOICE_CONTEXT_KEY = 'Alt+Shift+c'
+CHOICE_SEP_KEY = 'Alt+Shift+s'
 
 ORDER_START = r'{o{'
 ORDER_END = r'}o}'
@@ -128,7 +129,12 @@ def wrapOrder(editor):
 def wrapOrderItem(editor):
     editor.web.eval(f"wrap('{ORDER_ITEM_START} ', ' {ORDER_ITEM_END}');")
 
+def addChooseSeperator(editor):
+    editor.web.eval("document.execCommand('insertText', false, ' :r: ');")
+
 def addButtons(buttons, editor):
+
+
     editor._links['wrapChoose'] = wrapChoose
     buttons.append(editor.addButton(
         os.path.join(os.path.dirname(__file__), 'img', 'c.png' ),
@@ -137,6 +143,17 @@ def addButtons(buttons, editor):
         tip=f"Wrap selection in a choose context ({CHOICE_CONTEXT_KEY})",
         keys=CHOICE_CONTEXT_KEY
     ))
+
+    editor._links['addChooseSeperator'] = addChooseSeperator
+    buttons.append(editor.addButton(
+        os.path.join(os.path.dirname(__file__), 'img', 'cs.png' ),
+        "addChooseSeperator",
+        addChooseSeperator,
+        tip=f"Add a choose seperator ({CHOICE_SEP_KEY})",
+        keys=CHOICE_SEP_KEY
+    ))
+
+
 
     editor._links['wrapOrder'] = wrapOrder
     buttons.append(editor.addButton(
